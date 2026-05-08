@@ -8,25 +8,24 @@ modified: '2026-05-08'
 reconciled: false
 tags:
 - EdTech
-- Free
-- Nonprofit
+- Online Learning
+- Non-Profit
 - K-12
-- Higher Ed
 - Rate Limiting
 - Quotas
 - Throttling
-description: Placeholder rate-limit artifact for Khan Academy. Replace with real limits once researched.
-notes: Initial scaffold — limits have not yet been reconciled.
+description: Khan Academy does not publish API rate limits. Use respectful polling and caching.
+notes: Avoid scraping; legacy endpoints may change without notice.
 sources:
 - https://www.khanacademy.org/
 responseCodes:
   throttled: 429
 limits:
-- name: Default
-  scope: account
-  metric: varies
-  limit: see provider documentation
-  notes: Pending reconciliation.
+- name: Default Legacy
+  scope: ip
+  metric: requests
+  limit: not publicly documented
+  notes: Cache aggressively; endpoints may be removed without notice.
 policies:
 - name: Backoff Strategy
   description: Clients should implement exponential backoff with jitter and honor any Retry-After header.
