@@ -1,0 +1,29 @@
+aid: khan-academy
+url: https://raw.githubusercontent.com/api-evangelist/khan-academy/refs/heads/main/apis.yml
+name: Khan Academy
+x-type: company
+description: >-
+  Khan Academy is a free online education nonprofit providing self-paced learning content from K-12 to early-college, plus Khanmigo AI tutoring.
+image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+tags:
+  - EdTech
+  - Free
+  - Nonprofit
+  - K-12
+  - Higher Ed
+created: '2026-05-08'
+modified: '2026-05-08'
+specificationVersion: '0.19'
+apis: []
+common:
+  - type: Website
+    url: https://www.khanacademy.org/
+  - type: Plans
+    url: plans/khan-academy-plans-pricing.yml
+  - type: RateLimits
+    url: rate-limits/khan-academy-rate-limits.yml
+  - type: FinOps
+    url: finops/khan-academy-finops.yml
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com
