@@ -1,7 +1,7 @@
 aid: khan-academy
 url: https://raw.githubusercontent.com/api-evangelist/khan-academy/refs/heads/main/apis.yml
 name: Khan Academy
-x-type: non-profit
+kind: non-profit
 description: Khan Academy is a non-profit providing free online educational content. The legacy Khan Academy
   API (v1) is deprecated/limited and the public api-explorer.khanacademy.org redirects to the main site.
   Some endpoints under www.khanacademy.org/api/v1/ remain in use for internal apps and historical integrations,
