@@ -1,0 +1,710 @@
+# Khan Academy GraphQL Schema
+# Conceptual schema derived from the Khan Academy legacy REST API (v1)
+# and public platform documentation.
+# Source: https://www.khanacademy.org/api/v1/
+# GitHub: https://github.com/Khan
+
+# ─────────────────────────────────────────
+# Scalars
+# ─────────────────────────────────────────
+
+scalar DateTime
+scalar URL
+scalar JSON
+
+# ─────────────────────────────────────────
+# Enums
+# ─────────────────────────────────────────
+
+enum TopicKind {
+  TOPIC
+  EXERCISE
+  VIDEO
+  ARTICLE
+  QUIZ
+  PROJECT
+  CHALLENGE
+  UNIT
+  COURSE
+  SUBJECT
+  DOMAIN
+}
+
+enum VideoKind {
+  YOUTUBE
+  INTERNAL
+  LIVE
+}
+
+enum BadgeCategory {
+  BRONZE
+  SILVER
+  GOLD
+  PLATINUM
+  DIAMOND
+  MASTER
+  CHALLENGE_PATCH
+  TOPIC_EXERCISE_BADGE
+  ACHIEVEMENT
+}
+
+enum ProblemType {
+  MULTIPLE_CHOICE
+  FREE_RESPONSE
+  NUMERIC
+  EXPRESSION
+  INTERACTIVE
+  DRAWING
+  MATCHING
+}
+
+enum TaskStatus {
+  NOT_STARTED
+  IN_PROGRESS
+  COMPLETE
+  SKIPPED
+}
+
+enum EnergyLevel {
+  FULL
+  HIGH
+  MEDIUM
+  LOW
+  EMPTY
+}
+
+# ─────────────────────────────────────────
+# Topic Types
+# ─────────────────────────────────────────
+
+type TopicSlug {
+  slug: String!
+  kind: TopicKind!
+}
+
+type TopicColor {
+  foreground: String
+  background: String
+  highlight: String
+}
+
+type TopicIcons {
+  imageUrl: URL
+  iconSrc: URL
+  isSvg: Boolean
+}
+
+type TopicParent {
+  id: ID!
+  slug: String!
+  title: String!
+  kind: TopicKind!
+}
+
+type TopicChildren {
+  topics: [Topic!]
+  exercises: [Exercise!]
+  videos: [Video!]
+  articles: [Article!]
+  quizzes: [Quiz!]
+  projects: [Project!]
+}
+
+type TopicDetails {
+  id: ID!
+  slug: String!
+  title: String!
+  description: String
+  extendedSlug: String
+  nodeUrl: URL
+  relativeUrl: String
+  standaloneTitle: String
+  domainSlug: String
+  childCount: Int
+  contentItemCount: Int
+  thumbnailUrl: URL
+  creationDate: DateTime
+  modificationDate: DateTime
+}
+
+type Topic {
+  id: ID!
+  slug: TopicSlug!
+  kind: TopicKind!
+  title: String!
+  description: String
+  details: TopicDetails
+  color: TopicColor
+  icons: TopicIcons
+  parent: TopicParent
+  children: TopicChildren
+  ancestors: [TopicParent!]
+  depth: Int
+  position: Int
+  progressKey: String
+  imageUrl: URL
+  nodeUrl: URL
+  relativeUrl: String
+  hide: Boolean
+  listed: Boolean
+  creationDate: DateTime
+  modificationDate: DateTime
+}
+
+# ─────────────────────────────────────────
+# Exercise Types
+# ─────────────────────────────────────────
+
+type Hint {
+  id: ID!
+  content: String!
+  images: [URL!]
+  order: Int!
+}
+
+type ProblemTemplate {
+  id: ID!
+  templateType: String!
+  data: JSON
+  version: Int
+}
+
+type ProblemSolution {
+  id: ID!
+  answer: String
+  solutionSteps: [String!]
+  hints: [Hint!]
+  explanation: String
+}
+
+type ExerciseProblem {
+  id: ID!
+  type: ProblemType!
+  content: String!
+  template: ProblemTemplate
+  solution: ProblemSolution
+  hints: [Hint!]
+  difficulty: Float
+  tags: [String!]
+}
+
+type ExerciseProgress {
+  exerciseId: ID!
+  userId: ID!
+  totalAttempts: Int!
+  correctAttempts: Int!
+  streak: Int!
+  maxStreak: Int!
+  proficient: Boolean!
+  practiced: Boolean!
+  lastAttemptedDate: DateTime
+  completionDate: DateTime
+  progressKey: String
+}
+
+type ExerciseDetails {
+  id: ID!
+  name: String!
+  displayName: String
+  shortDisplayName: String
+  prerequisites: [String!]
+  coveredConcepts: [String!]
+  relatedVideos: [Video!]
+  problemTypes: [ProblemType!]
+  fileName: String
+  authorName: String
+  sumOfAssignedProblemCount: Int
+}
+
+type Exercise {
+  id: ID!
+  name: String!
+  displayName: String!
+  shortDisplayName: String
+  details: ExerciseDetails
+  problems: [ExerciseProblem!]
+  prerequisites: [Exercise!]
+  relatedVideos: [Video!]
+  nodeUrl: URL
+  relativeUrl: String
+  progressKey: String
+  fileName: String
+  imageUrl: URL
+  tags: [String!]
+  creationDate: DateTime
+  modificationDate: DateTime
+}
+
+# ─────────────────────────────────────────
+# Video Types
+# ─────────────────────────────────────────
+
+type YouTubeId {
+  youtubeId: String!
+  youtubeUrl: URL!
+}
+
+type VideoDuration {
+  seconds: Int!
+  formatted: String!
+}
+
+type VideoThumbnail {
+  imageUrl: URL!
+  width: Int
+  height: Int
+}
+
+type VideoCaption {
+  language: String!
+  languageCode: String!
+  url: URL
+}
+
+type VideoTranscript {
+  language: String!
+  languageCode: String!
+  text: String
+  vttUrl: URL
+}
+
+type VideoDetails {
+  id: ID!
+  title: String!
+  description: String
+  slug: String!
+  nodeUrl: URL
+  relativeUrl: String
+  downloadUrls: JSON
+  licenseName: String
+  licenseUrl: URL
+  authorName: String
+  authorUrl: URL
+  creationDate: DateTime
+  modificationDate: DateTime
+}
+
+type Video {
+  id: ID!
+  title: String!
+  description: String
+  kind: VideoKind!
+  youtube: YouTubeId
+  duration: VideoDuration
+  thumbnail: VideoThumbnail
+  transcripts: [VideoTranscript!]
+  captions: [VideoCaption!]
+  details: VideoDetails
+  tags: [String!]
+  relatedExercises: [Exercise!]
+  nodeUrl: URL
+  relativeUrl: String
+  progressKey: String
+  imageUrl: URL
+  translatedTitle: String
+  translatedDescriptionHtml: String
+  creationDate: DateTime
+  modificationDate: DateTime
+}
+
+# ─────────────────────────────────────────
+# Article Types
+# ─────────────────────────────────────────
+
+type ArticleContent {
+  html: String!
+  images: [URL!]
+  internalLinks: [URL!]
+}
+
+type ArticleDetails {
+  id: ID!
+  title: String!
+  slug: String!
+  description: String
+  nodeUrl: URL
+  relativeUrl: String
+  authorName: String
+  authorUrl: URL
+  creationDate: DateTime
+  modificationDate: DateTime
+}
+
+type Article {
+  id: ID!
+  title: String!
+  slug: String!
+  description: String
+  content: ArticleContent
+  details: ArticleDetails
+  tags: [String!]
+  nodeUrl: URL
+  relativeUrl: String
+  progressKey: String
+  imageUrl: URL
+  creationDate: DateTime
+  modificationDate: DateTime
+}
+
+# ─────────────────────────────────────────
+# Quiz and Challenge Types
+# ─────────────────────────────────────────
+
+type QuizProblem {
+  id: ID!
+  type: ProblemType!
+  content: String!
+  solution: ProblemSolution
+  hints: [Hint!]
+  points: Int
+}
+
+type Quiz {
+  id: ID!
+  title: String!
+  description: String
+  problems: [QuizProblem!]!
+  totalPoints: Int
+  passingScore: Int
+  timeLimit: Int
+  topicId: ID
+  progressKey: String
+  creationDate: DateTime
+}
+
+type ProgrammingChallenge {
+  id: ID!
+  title: String!
+  description: String!
+  starterCode: String
+  solutionCode: String
+  testCases: [String!]
+  hints: [Hint!]
+  difficulty: String
+  tags: [String!]
+}
+
+type ComputingChallenge {
+  id: ID!
+  title: String!
+  description: String!
+  category: String
+  programmingChallenges: [ProgrammingChallenge!]
+  progressKey: String
+}
+
+type ProjectChallenge {
+  id: ID!
+  title: String!
+  description: String!
+  requirements: [String!]
+  exampleUrl: URL
+  difficulty: String
+  tags: [String!]
+}
+
+type ProjectCode {
+  id: ID!
+  language: String!
+  code: String!
+  revision: Int
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type Project {
+  id: ID!
+  title: String!
+  description: String
+  challenge: ProjectChallenge
+  code: ProjectCode
+  authorId: ID
+  url: URL
+  votes: Int
+  spinOffCount: Int
+  creationDate: DateTime
+  modificationDate: DateTime
+}
+
+type Scratchpad {
+  id: ID!
+  title: String!
+  description: String
+  code: String
+  language: String
+  authorId: ID
+  url: URL
+  imageUrl: URL
+  votes: Int
+  spinOffCount: Int
+  isPublished: Boolean
+  creationDate: DateTime
+  modificationDate: DateTime
+}
+
+# ─────────────────────────────────────────
+# User and Profile Types
+# ─────────────────────────────────────────
+
+type Avatar {
+  name: String!
+  imageSrc: URL!
+  category: String
+}
+
+type UserBadge {
+  badgeId: ID!
+  badge: Badge!
+  dateEarned: DateTime!
+  targetContextId: String
+  targetContextUrl: URL
+}
+
+type UserProfile {
+  id: ID!
+  username: String!
+  displayName: String
+  bio: String
+  avatarUrl: URL
+  profileUrl: URL
+  countVideosCompleted: Int
+  countExercisesProficient: Int
+  countExercisesStarted: Int
+  countBadgesEarned: Int
+  joinDate: DateTime
+  isPublic: Boolean
+  isModerator: Boolean
+  isCoach: Boolean
+}
+
+type User {
+  id: ID!
+  username: String
+  email: String
+  nickname: String
+  profile: UserProfile
+  avatar: Avatar
+  badges: [UserBadge!]
+  streakRecord: StreakRecord
+  energy: Energy
+  points: Int
+  totalVideosWatched: Int
+  totalExercisesProficient: Int
+  totalBadgesEarned: Int
+  learningTasks: [LearningTask!]
+  progressData: [ProgressData!]
+  notebooks: [Notebook!]
+  creationDate: DateTime
+  lastActivityDate: DateTime
+}
+
+# ─────────────────────────────────────────
+# Badge Types
+# ─────────────────────────────────────────
+
+type BadgeIcon {
+  smallUrl: URL
+  largeUrl: URL
+  svgUrl: URL
+}
+
+type BadgePoints {
+  base: Int!
+  bonus: Int
+  total: Int!
+}
+
+type Badge {
+  id: ID!
+  name: String!
+  slug: String!
+  description: String!
+  category: BadgeCategory!
+  icon: BadgeIcon!
+  points: BadgePoints!
+  isRetired: Boolean
+  prerequisiteBadges: [Badge!]
+  relatedTopicSlug: String
+}
+
+type StreakRecord {
+  userId: ID!
+  currentStreak: Int!
+  longestStreak: Int!
+  lastActivityDate: DateTime
+  streakActive: Boolean!
+}
+
+# ─────────────────────────────────────────
+# Progress and Task Types
+# ─────────────────────────────────────────
+
+type Energy {
+  userId: ID!
+  current: Int!
+  maximum: Int!
+  level: EnergyLevel!
+  lastUpdated: DateTime
+}
+
+type ProgressData {
+  userId: ID!
+  contentId: ID!
+  contentKind: TopicKind!
+  progressKey: String!
+  complete: Boolean!
+  percentComplete: Float
+  startedAt: DateTime
+  completedAt: DateTime
+  lastWorkedAt: DateTime
+}
+
+type LearningTask {
+  id: ID!
+  userId: ID!
+  contentId: ID!
+  contentKind: TopicKind!
+  status: TaskStatus!
+  dueDate: DateTime
+  assignedDate: DateTime
+  completedDate: DateTime
+  scheduledDate: DateTime
+  coachNote: String
+}
+
+type Task {
+  id: ID!
+  title: String!
+  description: String
+  status: TaskStatus!
+  dueDate: DateTime
+  completedDate: DateTime
+  relatedContentId: ID
+  relatedContentKind: TopicKind
+}
+
+type Notebook {
+  id: ID!
+  userId: ID!
+  title: String!
+  notes: String
+  contentId: ID
+  contentKind: TopicKind
+  creationDate: DateTime
+  modificationDate: DateTime
+}
+
+# ─────────────────────────────────────────
+# API Access Types
+# ─────────────────────────────────────────
+
+type APIKey {
+  key: String!
+  name: String
+  scopes: [String!]!
+  createdAt: DateTime!
+  expiresAt: DateTime
+  isActive: Boolean!
+}
+
+type Token {
+  accessToken: String!
+  tokenType: String!
+  expiresIn: Int
+  scope: String
+  issuedAt: DateTime!
+}
+
+# ─────────────────────────────────────────
+# Root Query
+# ─────────────────────────────────────────
+
+type Query {
+  # Topic queries
+  topic(id: ID, slug: String): Topic
+  topics(parentId: ID, kind: TopicKind, limit: Int, offset: Int): [Topic!]!
+  topicTree(rootSlug: String): Topic
+
+  # Exercise queries
+  exercise(id: ID, name: String): Exercise
+  exercises(topicId: ID, difficulty: Float, limit: Int, offset: Int): [Exercise!]!
+  exerciseProgress(userId: ID!, exerciseId: ID!): ExerciseProgress
+
+  # Video queries
+  video(id: ID, youtubeId: String, slug: String): Video
+  videos(topicId: ID, kind: VideoKind, limit: Int, offset: Int): [Video!]!
+
+  # Article queries
+  article(id: ID, slug: String): Article
+  articles(topicId: ID, limit: Int, offset: Int): [Article!]!
+
+  # Quiz queries
+  quiz(id: ID!): Quiz
+  quizzes(topicId: ID, limit: Int, offset: Int): [Quiz!]!
+
+  # Project and Scratchpad queries
+  project(id: ID!): Project
+  projects(authorId: ID, limit: Int, offset: Int): [Project!]!
+  scratchpad(id: ID!): Scratchpad
+  scratchpads(authorId: ID, limit: Int, offset: Int): [Scratchpad!]!
+
+  # User queries
+  user(id: ID, username: String): User
+  currentUser: User
+  userProfile(username: String!): UserProfile
+  userBadges(userId: ID!): [UserBadge!]!
+  userProgress(userId: ID!, topicSlug: String): [ProgressData!]!
+  userStreak(userId: ID!): StreakRecord
+  userEnergy(userId: ID!): Energy
+
+  # Badge queries
+  badge(id: ID, slug: String): Badge
+  badges(category: BadgeCategory, limit: Int, offset: Int): [Badge!]!
+
+  # Task and notebook queries
+  learningTask(id: ID!): LearningTask
+  learningTasks(userId: ID!, status: TaskStatus, limit: Int, offset: Int): [LearningTask!]!
+  notebook(id: ID!): Notebook
+  notebooks(userId: ID!, limit: Int, offset: Int): [Notebook!]!
+
+  # Challenge queries
+  programmingChallenge(id: ID!): ProgrammingChallenge
+  computingChallenge(id: ID!): ComputingChallenge
+  projectChallenge(id: ID!): ProjectChallenge
+
+  # API access
+  apiKey(key: String!): APIKey
+}
+
+# ─────────────────────────────────────────
+# Root Mutation
+# ─────────────────────────────────────────
+
+type Mutation {
+  # Progress mutations
+  markVideoWatched(userId: ID!, videoId: ID!): ProgressData
+  submitExerciseAnswer(userId: ID!, exerciseId: ID!, problemId: ID!, answer: String!): ExerciseProgress
+  updateLearningTask(taskId: ID!, status: TaskStatus!): LearningTask
+
+  # User mutations
+  updateUserProfile(userId: ID!, displayName: String, bio: String, isPublic: Boolean): UserProfile
+  setAvatar(userId: ID!, avatarName: String!): Avatar
+
+  # Notebook mutations
+  createNotebook(userId: ID!, title: String!, contentId: ID, contentKind: TopicKind): Notebook
+  updateNotebook(notebookId: ID!, title: String, notes: String): Notebook
+  deleteNotebook(notebookId: ID!): Boolean
+
+  # Scratchpad mutations
+  createScratchpad(userId: ID!, title: String!, code: String!, language: String!): Scratchpad
+  updateScratchpad(scratchpadId: ID!, title: String, code: String, isPublished: Boolean): Scratchpad
+  deleteScratchpad(scratchpadId: ID!): Boolean
+
+  # API key mutations
+  createAPIKey(name: String!, scopes: [String!]!): APIKey
+  revokeAPIKey(key: String!): Boolean
+
+  # Token mutations
+  generateToken(apiKey: String!, apiSecret: String!): Token
+  revokeToken(accessToken: String!): Boolean
+}

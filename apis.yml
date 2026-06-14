@@ -2,50 +2,53 @@ aid: khan-academy
 url: https://raw.githubusercontent.com/api-evangelist/khan-academy/refs/heads/main/apis.yml
 name: Khan Academy
 kind: non-profit
-description: Khan Academy is a non-profit providing free online educational content. The legacy Khan Academy
-  API (v1) is deprecated/limited and the public api-explorer.khanacademy.org redirects to the main site.
-  Some endpoints under www.khanacademy.org/api/v1/ remain in use for internal apps and historical integrations,
-  but Khan Academy no longer maintains a publicly supported developer program.
+description: Khan Academy is a non-profit providing free online educational content.
+  The legacy Khan Academy API (v1) is deprecated/limited and the public api-explorer.khanacademy.org
+  redirects to the main site. Some endpoints under www.khanacademy.org/api/v1/ remain
+  in use for internal apps and historical integrations, but Khan Academy no longer
+  maintains a publicly supported developer program.
 image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
 tags:
-  - EdTech
-  - Online Learning
-  - Non-Profit
-  - K-12
+- EdTech
+- Online Learning
+- Non-Profit
+- K-12
 created: '2026-05-08'
 modified: '2026-05-08'
 specificationVersion: '0.19'
 apis:
-  - aid: khan-academy:api-v1-legacy
-    name: Khan Academy API v1 (Legacy / Internal)
-    description: Legacy REST API previously documented at api-explorer.khanacademy.org (now redirects).
-      Some endpoints under https://www.khanacademy.org/api/v1/ remain accessible for content topic trees
-      and exercise data, but Khan Academy does not maintain a publicly supported developer portal or guarantee
-      stability.
-    humanURL: https://www.khanacademy.org/
-    baseURL: https://www.khanacademy.org/api/v1/
-    tags:
-    - REST
-    - Legacy
-    - Limited
-    properties:
-    - type: Note
-      url: https://www.khanacademy.org/
+- aid: khan-academy:api-v1-legacy
+  name: Khan Academy API v1 (Legacy / Internal)
+  description: Legacy REST API previously documented at api-explorer.khanacademy.org
+    (now redirects). Some endpoints under https://www.khanacademy.org/api/v1/ remain
+    accessible for content topic trees and exercise data, but Khan Academy does not
+    maintain a publicly supported developer portal or guarantee stability.
+  humanURL: https://www.khanacademy.org/
+  baseURL: https://www.khanacademy.org/api/v1/
+  tags:
+  - REST
+  - Legacy
+  - Limited
+  properties:
+  - type: Note
+    url: https://www.khanacademy.org/
+  - url: graphql/khan-academy-graphql.md
+    type: GraphQL
 common:
-  - type: GitHubOrganization
-    url: https://github.com/khan
-  - type: LinkedIn
-    url: https://www.linkedin.com/school/khan-academy
-  - type: Website
-    url: https://www.khanacademy.org/
-  - type: Developer
-    url: https://www.khanacademy.org/
-  - type: Plans
-    url: plans/khan-academy-plans-pricing.yml
-  - type: RateLimits
-    url: rate-limits/khan-academy-rate-limits.yml
-  - type: FinOps
-    url: finops/khan-academy-finops.yml
+- type: GitHubOrganization
+  url: https://github.com/khan
+- type: LinkedIn
+  url: https://www.linkedin.com/school/khan-academy
+- type: Website
+  url: https://www.khanacademy.org/
+- type: Developer
+  url: https://www.khanacademy.org/
+- type: Plans
+  url: plans/khan-academy-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/khan-academy-rate-limits.yml
+- type: FinOps
+  url: finops/khan-academy-finops.yml
 maintainers:
-  - FN: Kin Lane
-    email: kin@apievangelist.com
+- FN: Kin Lane
+  email: kin@apievangelist.com
