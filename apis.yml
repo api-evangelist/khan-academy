@@ -35,6 +35,8 @@ apis:
   - url: graphql/khan-academy-graphql.md
     type: GraphQL
 common:
+- type: DomainSecurity
+  url: security/khan-academy-domain-security.yml
 - type: GitHubOrganization
   url: https://github.com/khan
 - type: LinkedIn
@@ -49,6 +51,8 @@ common:
   url: rate-limits/khan-academy-rate-limits.yml
 - type: FinOps
   url: finops/khan-academy-finops.yml
+- type: Blog
+  url: https://blog.khanacademy.org/feed/
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
