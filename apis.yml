@@ -7,7 +7,19 @@ description: Khan Academy is a non-profit providing free online educational cont
   redirects to the main site. Some endpoints under www.khanacademy.org/api/v1/ remain
   in use for internal apps and historical integrations, but Khan Academy no longer
   maintains a publicly supported developer program.
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: free
+  onboarding: unknown
+  trial: false
+  try_now: false
+  public: false
+  label: Free
+  confidence: medium
+  source:
+  - plans
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/khan-academy.png
 tags:
 - EdTech
 - Online Learning
