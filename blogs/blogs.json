@@ -5,9 +5,14 @@
       "source": "https://blog.khanacademy.org/feed/",
       "feed_url": "https://blog.khanacademy.org/feed/",
       "title": "Khan Academy Blog",
-      "saved": 4
+      "saved": 4,
+      "nature": "vendor-blog",
+      "nature_basis": "blog_subdomain"
     }
   ],
   "fetched": "2026-08-30T22:05:13Z",
-  "post_count": 31
+  "post_count": 31,
+  "feed_nature": "vendor-blog",
+  "feed_nature_basis": "blog_subdomain",
+  "feed_nature_note": "Whether these posts are the vendor publishing or its support community, decided on the URL path grammar of the saved posts -- not the hostname, which carries both on Khoros, and not author diversity, which flags large vendor blogs as forums. 'undetermined' means undetermined."
 }
