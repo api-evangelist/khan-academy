@@ -55,8 +55,6 @@ apis:
   properties:
   - type: Note
     url: https://www.khanacademy.org/
-  - url: graphql/khan-academy-graphql.md
-    type: GraphQL
 common:
 - type: DomainSecurity
   url: security/khan-academy-domain-security.yml
